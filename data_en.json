@@ -1,0 +1,69 @@
+{
+    "roles": ["Student", "University Employee"],
+    "faculties": ["Engineering", "Economics", "Humanities"],
+    "departments": {
+      "Engineering": ["Mechanics", "Electrical Engineering", "Civil Engineering"],
+      "Economics": ["Finance", "Marketing", "Accounting"],
+      "Humanities": ["Philology", "History", "Psychology"]
+    },
+    "structural_units": ["Administration", "Academic Department", "Research Department"],
+    "popular_documents": {
+      "Student": ["Scholarship Application", "Certificate of Study"],
+      "University Employee": ["Leave Order", "Work Certificate"]
+    },
+    "documents": {
+      "Student": [
+        "Scholarship Application",
+        "Leave Application (Academic)",
+        "Leave Application (Regular)",
+        "Explanatory Note",
+        "Dormitory Accommodation Application",
+        "Dormitory Eviction Application",
+        "Certificate of Study",
+        "Transfer to Another Form of Study Application"
+      ],
+      "University Employee": [
+        "Leave Order",
+        "Business Trip Order",
+        "Work Certificate",
+        "Report",
+        "Professional Development Application"
+      ]
+    },
+    "document_fields": {
+      "Scholarship Application": ["Full Name", "Course", "Group", "Student ID"],
+      "Certificate of Study": ["Full Name", "Course", "Group"],
+      "Leave Order": ["Full Name", "Position", "Leave Type", "Leave Period"],
+      "Work Certificate": ["Full Name", "Position"],
+      "Leave Application (Academic)": ["Full Name", "Course", "Group", "Reason for Leave", "Leave Period"],
+      "Leave Application (Regular)": ["Full Name", "Course", "Group", "Leave Period"],
+      "Explanatory Note": ["Full Name", "Date of Event", "Description of Event"],
+      "Dormitory Accommodation Application": ["Full Name", "Course", "Group", "Room Number (Preferred)"],
+      "Dormitory Eviction Application": ["Full Name", "Course", "Group", "Room Number"],
+      "Transfer to Another Form of Study Application": ["Full Name", "Course", "Group", "Current Form of Study", "Desired Form of Study", "Reason for Transfer"],
+      "Business Trip Order": ["Full Name", "Position", "Place of Business Trip", "Period of Business Trip", "Purpose of Business Trip"],
+      "Report": ["Full Name", "Position", "Report Title", "Reporting Period"],
+      "Professional Development Application": ["Full Name", "Position", "Desired Type of Professional Development", "Period"],
+      "Universal Certificate Application": ["Full Name", "Position (if employee)", "Course, Group (if student)", "Type of Certificate", "Purpose of Certificate"],
+      "Memo": ["From", "To", "Subject", "Content"]
+    },
+    "ui_text": {
+      "start_message": "Hello! I will help you quickly generate the necessary documents. Are you a student or a university employee?",
+      "student_button": "Student",
+      "employee_button": "University Employee",
+      "choose_faculty": "Please choose your faculty:",
+      "choose_department": "Please choose your department:",
+      "choose_document": "Please choose the document you want to generate:",
+      "popular_documents": "Popular Documents:",
+      "all_documents_button": "All Documents...",
+      "enter_full_name": "Please enter your Full Name:",
+      "confirm_data": "Please verify the entered data:",
+      "confirm_button": "Confirm",
+      "change_button": "Change",
+      "document_generation_successful": "Thank you for confirmation! Your document '{document_name}' will be generated shortly.\n\nEntered data:\n{user_data}",
+      "data_change_prompt": "What data do you want to change? (Data change functionality is not implemented in this example, please start over with /start)",
+      "cancel_message": "Goodbye, {first_name}! If you need help, just enter /start.",
+      "student_role_chosen": "You have chosen the role: Student",
+      "employee_role_chosen": "You have chosen the role: University Employee"
+    }
+  }

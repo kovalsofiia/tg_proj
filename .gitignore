@@ -1,3 +1,7 @@
+solid/
+test.docx
+data.json
+bs4/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
