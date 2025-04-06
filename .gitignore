@@ -1,7 +1,6 @@
-solid/
-test.docx
-data.json
 bs4/
+data/
+models/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
