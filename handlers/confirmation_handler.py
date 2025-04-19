@@ -11,5 +11,5 @@ async def confirm_data(update: Update, context: CallbackContext, data_loader, ui
     await query.edit_message_text(
         text=f"Дякую за підтвердження!\n\nВведені дані:\n{ui_builder.build_selection_text(user_data)}"
     )
-    user_data_store.clear_user_data(user_id)
+    # user_data_store.clear_user_data(user_id)
     return ConversationHandler.END
