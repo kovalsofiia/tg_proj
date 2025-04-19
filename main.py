@@ -11,9 +11,9 @@ from handlers.user.role_selection_handler import role_chosen
 from handlers.user.full_name_handler import full_name_received
 from handlers.user.phone_number_handler import phone_number_received
 from handlers.user.faculty_selection_handler import faculty_chosen
-from handlers.education_degree_handler import education_degree_chosen
-from handlers.department_handler import department_chosen
-from handlers.confirmation_handler import confirm_data
+from handlers.user.education_degree_handler import education_degree_chosen
+from handlers.user.department_handler import department_chosen
+from handlers.user.confirmation_handler import confirm_data
 
 load_dotenv()
 
