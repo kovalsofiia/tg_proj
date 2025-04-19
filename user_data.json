@@ -1,14 +1,23 @@
 {
   "553898341": {
     "role": "Студент",
+    "full_name": "Коваль Софія Олександрівна",
+    "phone_number": "380663729164",
     "faculty": "ФМЦТ",
-    "document": "PoyasnyuvalnaZapiska",
+    "education_degree": "Доктор філософії (PhD)",
+    "speciality": "СистАнТеорОпт",
+    "course": "1",
+    "document": "ZayavaNaStypendiyu",
     "additional_data": {
-      "Fakultet": "3",
-      "Spetsialnist": "Системний аналіз",
-      "PIB": "Коваль Софія Олександрівна",
-      "DataPodiyi": "19.04.2025",
-      "PrychynaVidsutnosti": "Просто"
+      "KartkovyyRahunok": "Інд код"
+    }
+  },
+  "553898341": {
+    "role": "Студент",
+    "faculty": "ФМЦТ",
+    "document": "ZayavaNaStypendiyu",
+    "additional_data": {
+      "KartkovyyRahunok": "2 код"
     }
   }
 }

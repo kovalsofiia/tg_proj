@@ -46,7 +46,7 @@ class ConversationManager:
                                                lambda u, c: additional_data_received(u, c, self.data_loader, self.ui_builder, self.user_data_store))],
                 CONFIRMATION: [
                     CallbackQueryHandler(lambda u, c: confirm_data(u, c, self.doc_generator, self.user_data_store), pattern='^confirm$'),
-                    CallbackQueryHandler(lambda u, c: change_data(u, c, self.data_loader), pattern='^change$'),
+                    CallbackQueryHandler(lambda u, c: change_data(u, c, self.data_loader, self.user_data_store), pattern='^change$'),
                     CallbackQueryHandler(lambda u, c: format_chosen(u, c, self.ui_builder, self.user_data_store), pattern='^format_'),
                     CallbackQueryHandler(lambda u, c: display_confirmation(u, c, self.ui_builder, self.user_data_store), pattern='^display$'),
                 ],

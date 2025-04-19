@@ -100,9 +100,8 @@ async def change_data(update: Update, context: CallbackContext, data_loader, use
     await query.edit_message_text(data_loader.get_ui_text().get('data_change_prompt'))
     return ConversationHandler.END
 
-async def cancel(update: Update, context: CallbackContext, data_loader) -> int:
+async def cancel(update: Update, context: CallbackContext, data_loader, user_data_store) -> int:
     user = update.effective_user
-    user_data_store = context.user_data.get('user_data_store')
     user_data_store.clear_user_data(user.id)
     await update.message.reply_text(data_loader.get_ui_text().get('cancel_message').format(first_name=user.first_name))
     return ConversationHandler.END
