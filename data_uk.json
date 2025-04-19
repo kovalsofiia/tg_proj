@@ -194,53 +194,52 @@
     "В.о. завідувача кафедри",
     "В.о. декана"
   ],
-  "structural_units": ["Адміністрація", "Навчальний відділ", "Науково-дослідний відділ"],
   "popular_documents": {
-    "Студент": ["Заява на стипендію"],
-    "Працівник університету": ["Розпорядження про відрядження"]
+    "Студент": ["ZayavaNaStypendiyu"],
+    "Працівник університету": ["RozporyadzhennyaProVidryadzhennya"]
   },
   "documents": {
     "Студент": [
-      "Заява на стипендію",
-      "Заява про відпустку (академічну)",
-      "Пояснювальна записка"
+      "ZayavaNaStypendiyu",
+      "ZayavaProVidpustkuAkademichnu",
+      "PoyasnyuvalnaZapiska"
     ],
     "Працівник університету": [
-      "Розпорядження про відрядження"
+      "RozporyadzhennyaProVidryadzhennya"
     ]
   },
   "document_fields": {
-    "Заява на стипендію": [
-      {"name": "Інд.код.", "label": "Ідентифікаційний код"},
-      {"name": "Картковий рахунок", "label": "Номер карткового рахунку"}
-    ],
-    "Заява про відпустку (академічну)": [
-      {"name": "Курс", "label": "Курс"},
-      {"name": "Освітній ступінь", "label": "Освітній ступінь"},
-      {"name": "Факультет", "label": "Факультет"},
-      {"name": "Спеціальність", "label": "Спеціальність"},
-      {"name": "Освітня програма", "label": "Освітня програма"},
-      {"name": "ПІБ", "label": "ПІБ"},
-      {"name": "Номер контактного телефону", "label": "Номер контактного телефону"},
-      {"name": "Дата початку", "label": "Дата початку"},
-      {"name": "Дата кінця", "label": "Дата кінця"},
-      {"name": "Причина надання", "label": "Причина надання"}
-    ],
-    "Пояснювальна записка": [
-      {"name": "Курс", "label": "Курс"},
-      {"name": "Факультет", "label": "Факультет"},
-      {"name": "Спеціальність", "label": "Спеціальність"},
-      {"name": "ПІБ", "label": "ПІБ"},
-      {"name": "Дата події", "label": "Дата події"},
-      {"name": "Причина відсутності", "label": "Причина відсутності"}
-    ],
-    "Розпорядження про відрядження": [
-      {"name": "ПІБ", "label": "ПІБ"},
-      {"name": "Посада", "label": "Посада"},
-      {"name": "Місце відрядження", "label": "Місце відрядження"},
-      {"name": "Термін відрядження", "label": "Термін відрядження"},
-      {"name": "Мета відрядження", "label": "Мета відрядження"}
-    ]
+    "ZayavaNaStypendiyu": [
+    {"name": "IndKod", "label": "Ідентифікаційний код"},
+    {"name": "KartkovyyRahunok", "label": "Номер карткового рахунку"}
+  ],
+  "ZayavaProVidpustkuAkademichnu": [
+    {"name": "Kurs", "label": "Курс"},
+    {"name": "OsvitniyStupin", "label": "Освітній ступінь"},
+    {"name": "Fakultet", "label": "Факультет"},
+    {"name": "Spetsialnist", "label": "Спеціальність"},
+    {"name": "OsvitnyaPrograma", "label": "Освітня програма"},
+    {"name": "PIB", "label": "ПІБ"},
+    {"name": "NomKontTel", "label": "Номер контактного телефону"},
+    {"name": "DataPochatku", "label": "Дата початку"},
+    {"name": "DataKintsya", "label": "Дата кінця"},
+    {"name": "PrychynaNadannya", "label": "Причина надання"}
+  ],
+  "PoyasnyuvalnaZapiska": [
+    {"name": "Kurs", "label": "Курс"},
+    {"name": "Fakultet", "label": "Факультет"},
+    {"name": "Spetsialnist", "label": "Спеціальність"},
+    {"name": "PIB", "label": "ПІБ"},
+    {"name": "DataPodiyi", "label": "Дата події"},
+    {"name": "PrychynaVidsutnosti", "label": "Причина відсутності"}
+  ],
+  "RozporyadzhennyaProVidryadzhennya": [
+    {"name": "PIB", "label": "ПІБ"},
+    {"name": "Posada", "label": "Посада"},
+    {"name": "MisceVidryadzhennya", "label": "Місце відрядження"},
+    {"name": "TerminVidryadzhennya", "label": "Термін відрядження"},
+    {"name": "MetaVidryadzhennya", "label": "Мета відрядження"}
+  ]
   },
   "ui_text": {
     "choose_faculty": "Оберіть факультет:",
