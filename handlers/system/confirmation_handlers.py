@@ -6,7 +6,7 @@ from config import DOCUMENT, FULL_NAME, ADDITIONAL_DATA, CONFIRMATION, PHONE_NUM
 async def display_confirmation(update: Update, context: CallbackContext, ui_builder, user_data_store) -> int:
     user_id = update.effective_user.id
     output_format = context.user_data.get('output_format', 'docx')
-    confirmation_text = ui_builder.build_confirmation_text(user_data_store[user_id], output_format)
+    confirmation_text = ui_builder.build_confirmation_text(user_data_store.get_user_data(user_id), output_format)
     reply_markup = ui_builder.build_confirmation_keyboard(output_format)
     if update.message:
         await update.message.reply_text(confirmation_text, reply_markup=reply_markup)
@@ -22,7 +22,7 @@ async def format_chosen(update: Update, context: CallbackContext, ui_builder, us
     format_choice = query.data.split('_')[1]
     context.user_data['output_format'] = format_choice
     user_id = update.effective_user.id
-    confirmation_text = ui_builder.build_confirmation_text(user_data_store[user_id], format_choice)
+    confirmation_text = ui_builder.build_confirmation_text(user_data_store.get_user_data(user_id), format_choice)
     reply_markup = ui_builder.build_confirmation_keyboard(format_choice)
     await query.edit_message_text(confirmation_text, reply_markup=reply_markup)
     return CONFIRMATION
@@ -31,7 +31,7 @@ async def confirm_data(update: Update, context: CallbackContext, doc_generator, 
     query = update.callback_query
     await query.answer()
     user_id = update.effective_user.id
-    user_data = user_data_store[user_id]
+    user_data = user_data_store.get_user_data(user_id)
     document_name = user_data.get('document', 'документ')
     output_format = context.user_data.get('output_format', 'docx')
     try:
@@ -65,10 +65,16 @@ async def repeat_choice(update: Update, context: CallbackContext, data_loader, u
 
     if choice == 'repeat_yes':
         # Зберігаємо роль, факультет і кафедру, очищаємо інші дані
-        role = user_data_store[user_id].get('role')
-        faculty = user_data_store[user_id].get('faculty')
-        department = user_data_store[user_id].get('department')
-        user_data_store[user_id] = {'role': role, 'faculty': faculty, 'department': department}
+        user_data = user_data_store.get_user_data(user_id)
+        role = user_data.get('role')
+        faculty = user_data.get('faculty')
+        department = user_data.get('department')
+        user_data_store.clear_user_data(user_id)
+        user_data_store.set_user_data(user_id, 'role', role)
+        user_data_store.set_user_data(user_id, 'faculty', faculty)
+        if department:
+            user_data_store.set_user_data(user_id, 'department', department)
+
 
         # Повертаємося до вибору документів
         popular_docs = data_loader.get_popular_documents(role)
@@ -77,22 +83,26 @@ async def repeat_choice(update: Update, context: CallbackContext, data_loader, u
         if all_docs and popular_docs != all_docs:
             keyboard.append([InlineKeyboardButton(data_loader.get_ui_text().get('all_documents_button'), callback_data='show_all_documents')])
         reply_markup = InlineKeyboardMarkup(keyboard)
-        current_selection = ui_builder.build_selection_text(user_data_store[user_id])
+        current_selection = ui_builder.build_selection_text(user_data_store.get_user_data(user_id))
         message_text = f"{current_selection}\n{data_loader.get_ui_text().get('choose_document')}\n{data_loader.get_ui_text().get('popular_documents')}"
         await query.edit_message_text(text=message_text, reply_markup=reply_markup)
         return DOCUMENT
     else:  # 'repeat_no'
         await query.edit_message_text("Дякую за використання бота! До зустрічі!")
-        del user_data_store[user_id]  # Очищаємо дані користувача
+        user_data_store.clear_user_data(user_id)
         return ConversationHandler.END
 
-async def change_data(update: Update, context: CallbackContext, data_loader) -> int:
+async def change_data(update: Update, context: CallbackContext, data_loader, user_data_store) -> int:
     query = update.callback_query
     await query.answer()
+    user_id = update.effective_user.id
+    user_data_store.clear_user_data(user_id)
     await query.edit_message_text(data_loader.get_ui_text().get('data_change_prompt'))
     return ConversationHandler.END
 
 async def cancel(update: Update, context: CallbackContext, data_loader) -> int:
     user = update.effective_user
+    user_data_store = context.user_data.get('user_data_store')
+    user_data_store.clear_user_data(user.id)
     await update.message.reply_text(data_loader.get_ui_text().get('cancel_message').format(first_name=user.first_name))
     return ConversationHandler.END

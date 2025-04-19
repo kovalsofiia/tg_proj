@@ -1,4 +1,3 @@
-# ADDED JSON SAVING easy alternative for saving data
 from telegram.ext import CallbackContext
 from telegram import Update
 from config import ADDITIONAL_DATA, CONFIRMATION
@@ -21,20 +20,32 @@ async def document_chosen(update: Update, context: CallbackContext, data_loader,
     query = update.callback_query
     await query.answer()
     user_id = update.effective_user.id
-    chosen_document = query.data.split('_')[1]
-    user_data_store.set_user_data(user_id, 'chosen_document', chosen_document)
-    document_fields = data_loader.get_document_fields(chosen_document)
-    if document_fields:
-        first_field = document_fields[0]
-        await query.edit_message_text(f"{ui_builder.build_selection_text(user_data_store.get_user_data(user_id))}\n{data_loader.get_ui_text().get('enter_your')} {first_field['label']}:")
-        user_data_store.set_user_data(user_id, 'current_field', first_field['name'])
+    callback_data = query.data
+    if callback_data.startswith('doc_id_'):
+        document = context.user_data['all_documents'][callback_data]
+    else:
+        document = callback_data.split('_')[1]
+    user_data_store.set_user_data(user_id, 'document', document)
+
+    # Отримуємо повний список полів для документа
+    fields_to_ask = data_loader.get_document_fields(document)
+    context.user_data['fields_to_ask'] = [
+        {"name": field["name"], "label": field["label"]} if isinstance(field, dict) else {"name": field, "label": field}
+        for field in fields_to_ask
+    ]
+
+    if context.user_data['fields_to_ask']:
+        first_field = context.user_data['fields_to_ask'].pop(0)
+        await query.edit_message_text(
+            f"{ui_builder.build_selection_text(user_data_store.get_user_data(user_id))}\n{data_loader.get_ui_text().get('enter_your')} {first_field['label']}:"
+        )
         return ADDITIONAL_DATA
     else:
         await display_confirmation(update, context, ui_builder, user_data_store)
         return CONFIRMATION
 # from telegram.ext import CallbackContext
 # from telegram import Update
-# from config import ADDITIONAL_DATA,CONFIRMATION
+# from config import ADDITIONAL_DATA
 # import re
 
 # from handlers.system.confirmation_handlers import display_confirmation
@@ -55,36 +66,22 @@ async def document_chosen(update: Update, context: CallbackContext, data_loader,
 #     query = update.callback_query
 #     await query.answer()
 #     user_id = update.effective_user.id
-#     chosen_document = query.data.split('_')[1]
-#     user_data_store[user_id]['chosen_document'] = chosen_document
-#     document_fields = data_loader.get_document_fields(chosen_document)
-#     if document_fields:
-#         first_field = document_fields[0]
+#     callback_data = query.data
+#     if callback_data.startswith('doc_id_'):
+#         document = context.user_data['all_documents'][callback_data]
+#     else:
+#         document = callback_data.split('_')[1]
+#     user_data_store[user_id]['document'] = document
+
+#     # Отримуємо повний список полів для запитання при кожному виборі документа
+#     fields_to_ask = data_loader.get_document_fields(document)
+#     context.user_data['fields_to_ask'] = fields_to_ask[:] # Зберігаємо копію
+
+#     if fields_to_ask:
+#         # Ініціалізуємо індекс поточного поля, яке запитуємо
+#         context.user_data['current_field_index'] = 0
+#         first_field = fields_to_ask[0]
 #         await query.edit_message_text(f"{ui_builder.build_selection_text(user_data_store[user_id])}\n{data_loader.get_ui_text().get('enter_your')} {first_field['label']}:")
-#         user_data_store[user_id]['current_field'] = first_field['name']  # Зберігаємо назву поля для введення
 #         return ADDITIONAL_DATA
 #     else:
-#         await display_confirmation(update, context, ui_builder, user_data_store)
-#         return CONFIRMATION
-#     # query = update.callback_query
-#     # await query.answer()
-#     # user_id = update.effective_user.id
-#     # callback_data = query.data
-#     # if callback_data.startswith('doc_id_'):
-#     #     document = context.user_data['all_documents'][callback_data]
-#     # else:
-#     #     document = callback_data.split('_')[1]
-#     # user_data_store[user_id]['document'] = document
-
-#     # # Отримуємо повний список полів для запитання при кожному виборі документа
-#     # fields_to_ask = data_loader.get_document_fields(document)
-#     # context.user_data['fields_to_ask'] = fields_to_ask[:] # Зберігаємо копію
-
-#     # if fields_to_ask:
-#     #     # Ініціалізуємо індекс поточного поля, яке запитуємо
-#     #     context.user_data['current_field_index'] = 0
-#     #     first_field = fields_to_ask[0]
-#     #     await query.edit_message_text(f"{ui_builder.build_selection_text(user_data_store[user_id])}\n{data_loader.get_ui_text().get('enter_your')} {first_field['label']}:")
-#     #     return ADDITIONAL_DATA
-#     # else:
-#     #     return await display_confirmation(update, context, ui_builder, user_data_store)
+#         return await display_confirmation(update, context, ui_builder, user_data_store)

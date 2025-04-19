@@ -40,7 +40,7 @@ async def position_chosen(update: Update, context: CallbackContext, data_loader,
         reply_markup = InlineKeyboardMarkup(keyboard)
         current_selection = ui_builder.build_selection_text(user_data_store.get_user_data(user_id))
         message_text = f"{current_selection}\n{data_loader.get_ui_text().get('choose_document')}\n{data_loader.get_ui_text().get('popular_documents')}"
-        await context.bot.send_message(chat_id=update.effective_chat.id, text=message_text, reply_markup=reply_markup)
+        await query.edit_message_text(text=message_text, reply_markup=reply_markup)
         return DOCUMENT
     return POSITION
 # from telegram.ext import CallbackContext
@@ -84,15 +84,6 @@ async def position_chosen(update: Update, context: CallbackContext, data_loader,
 #         reply_markup = InlineKeyboardMarkup(keyboard)
 #         current_selection = ui_builder.build_selection_text(user_data_store[user_id])
 #         message_text = f"{current_selection}\n{data_loader.get_ui_text().get('choose_document')}\n{data_loader.get_ui_text().get('popular_documents')}"
-#         await context.bot.send_message(chat_id=update.effective_chat.id, text=message_text, reply_markup=reply_markup)
-#         # if all_docs and popular_docs != all_docs:
-#         #     keyboard.append([InlineKeyboardButton(data_loader.get_ui_text().get('all_documents_button'), callback_data='show_all_documents')])
-#         # for row in keyboard:
-#         #     for button in row:
-#         #         print(f"Generated callback_data: {button.callback_data}")
-#         # reply_markup = InlineKeyboardMarkup(keyboard)
-#         # current_selection = ui_builder.build_selection_text(user_data_store[user_id])
-#         # message_text = f"{current_selection}\n{data_loader.get_ui_text().get('choose_document')}\n{data_loader.get_ui_text().get('popular_documents')}"
-#         # await query.edit_message_text(text=message_text, reply_markup=reply_markup)
+#         await query.edit_message_text(text=message_text, reply_markup=reply_markup)
 #         return DOCUMENT
 #     return POSITION

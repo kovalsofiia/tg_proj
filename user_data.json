@@ -1,16 +1,14 @@
 {
   "553898341": {
-    "role": "Працівник університету",
-    "full_name": "Коваль Людмила Олександрівна",
-    "phone_number": "380663729164",
-    "faculty": "БІОЛ",
-    "department": "Бот"
-  },
-  "553898341": {
-    "role": "Працівник університету",
-    "full_name": "Коваль Людмила Олександрівна",
-    "phone_number": "380663729164",
-    "faculty": "ФТМК",
-    "department": "МіжнКом"
+    "role": "Студент",
+    "faculty": "ФМЦТ",
+    "document": "PoyasnyuvalnaZapiska",
+    "additional_data": {
+      "Fakultet": "3",
+      "Spetsialnist": "Системний аналіз",
+      "PIB": "Коваль Софія Олександрівна",
+      "DataPodiyi": "19.04.2025",
+      "PrychynaVidsutnosti": "Просто"
+    }
   }
 }
