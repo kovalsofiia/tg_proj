@@ -64,18 +64,38 @@ async def repeat_choice(update: Update, context: CallbackContext, data_loader, u
     choice = query.data
 
     if choice == 'repeat_yes':
-        # Зберігаємо роль, факультет і кафедру, очищаємо інші дані
+        # Отримати поточні дані користувача
         user_data = user_data_store.get_user_data(user_id)
         role = user_data.get('role')
-        faculty = user_data.get('faculty')
-        department = user_data.get('department')
+        if not role:
+            await query.edit_message_text("Помилка: роль не визначена. Почніть з /start.")
+            return ConversationHandler.END
+        
+        # Зберегти базову інформацію
+        base_data = {
+            'role': role,
+            'full_name': user_data.get('full_name'),
+            'phone_number': user_data.get('phone_number'),
+            'faculty': user_data.get('faculty')
+        }
+        if role == "Студент":
+            base_data.update({
+                'education_degree': user_data.get('education_degree'),
+                'speciality': user_data.get('speciality'),
+                'course': user_data.get('course')
+            })
+        elif role == "Працівник університету":
+            base_data.update({
+                'department': user_data.get('department'),
+                'position': user_data.get('position')
+            })
+
+        # Очистити всі дані та зберегти базову інформацію
         user_data_store.clear_user_data(user_id)
-        user_data_store.set_user_data(user_id, 'role', role)
-        user_data_store.set_user_data(user_id, 'faculty', faculty)
-        if department:
-            user_data_store.set_user_data(user_id, 'department', department)
-
-
+        for key, value in base_data.items():
+            if value:  # Зберігаємо лише непорожні значення
+                user_data_store.set_user_data(user_id, key, value)
+        
         # Повертаємося до вибору документів
         popular_docs = data_loader.get_popular_documents(role)
         all_docs = data_loader.get_documents(role)
@@ -83,6 +103,7 @@ async def repeat_choice(update: Update, context: CallbackContext, data_loader, u
         if all_docs and popular_docs != all_docs:
             keyboard.append([InlineKeyboardButton(data_loader.get_ui_text().get('all_documents_button'), callback_data='show_all_documents')])
         reply_markup = InlineKeyboardMarkup(keyboard)
+        # Показати збережені дані та запит на вибір документа
         current_selection = ui_builder.build_selection_text(user_data_store.get_user_data(user_id))
         message_text = f"{current_selection}\n{data_loader.get_ui_text().get('choose_document')}\n{data_loader.get_ui_text().get('popular_documents')}"
         await query.edit_message_text(text=message_text, reply_markup=reply_markup)
@@ -91,7 +112,7 @@ async def repeat_choice(update: Update, context: CallbackContext, data_loader, u
         await query.edit_message_text("Дякую за використання бота! До зустрічі!")
         user_data_store.clear_user_data(user_id)
         return ConversationHandler.END
-
+    
 async def change_data(update: Update, context: CallbackContext, data_loader, user_data_store) -> int:
     query = update.callback_query
     await query.answer()
