@@ -195,51 +195,20 @@
     "В.о. декана"
   ],
   "popular_documents": {
-    "Студент": ["ZayavaNaStypendiyu"],
-    "Працівник університету": ["RozporyadzhennyaProVidryadzhennya"]
+    "Студент": ["Пояснювальна записка", "Заява на відпустку"],
+    "Працівник університету": ["Заява на відпустку", "Звіт"]
   },
   "documents": {
-    "Студент": [
-      "ZayavaNaStypendiyu",
-      "ZayavaProVidpustkuAkademichnu",
-      "PoyasnyuvalnaZapiska"
-    ],
-    "Працівник університету": [
-      "RozporyadzhennyaProVidryadzhennya"
-    ]
+    "Студент": ["Пояснювальна записка", "Заява на відпустку"],
+    "Працівник університету": ["Заява на відпустку", "Звіт"]
   },
   "document_fields": {
-    "ZayavaNaStypendiyu": [
-    {"name": "IndKod", "label": "Ідентифікаційний код"},
-    {"name": "KartkovyyRahunok", "label": "Номер карткового рахунку"}
-  ],
-  "ZayavaProVidpustkuAkademichnu": [
-    {"name": "Kurs", "label": "Курс"},
-    {"name": "OsvitniyStupin", "label": "Освітній ступінь"},
-    {"name": "Fakultet", "label": "Факультет"},
-    {"name": "Spetsialnist", "label": "Спеціальність"},
-    {"name": "OsvitnyaPrograma", "label": "Освітня програма"},
-    {"name": "PIB", "label": "ПІБ"},
-    {"name": "NomKontTel", "label": "Номер контактного телефону"},
-    {"name": "DataPochatku", "label": "Дата початку"},
-    {"name": "DataKintsya", "label": "Дата кінця"},
-    {"name": "PrychynaNadannya", "label": "Причина надання"}
-  ],
-  "PoyasnyuvalnaZapiska": [
-    {"name": "Kurs", "label": "Курс"},
-    {"name": "Fakultet", "label": "Факультет"},
-    {"name": "Spetsialnist", "label": "Спеціальність"},
-    {"name": "PIB", "label": "ПІБ"},
-    {"name": "DataPodiyi", "label": "Дата події"},
-    {"name": "PrychynaVidsutnosti", "label": "Причина відсутності"}
-  ],
-  "RozporyadzhennyaProVidryadzhennya": [
-    {"name": "PIB", "label": "ПІБ"},
-    {"name": "Posada", "label": "Посада"},
-    {"name": "MisceVidryadzhennya", "label": "Місце відрядження"},
-    {"name": "TerminVidryadzhennya", "label": "Термін відрядження"},
-    {"name": "MetaVidryadzhennya", "label": "Мета відрядження"}
-  ]
+    "Пояснювальна записка": [
+      {"name": "full_name", "label": "ПІБ", "source": "user_data"},
+      {"name": "event_date", "label": "Дата події"},
+      {"name": "explanation_text", "label": "Текст пояснення"},
+      {"name": "note_date", "label": "Дата написання записки"}
+    ]
   },
   "ui_text": {
     "choose_faculty": "Оберіть факультет:",
