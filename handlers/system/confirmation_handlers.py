@@ -90,11 +90,8 @@ async def repeat_choice(update: Update, context: CallbackContext, data_loader, u
                 'position': user_data.get('position')
             })
 
-        # Очистити всі дані та зберегти базову інформацію
-        user_data_store.clear_user_data(user_id)
-        for key, value in base_data.items():
-            if value:  # Зберігаємо лише непорожні значення
-                user_data_store.set_user_data(user_id, key, value)
+        user_data_store.set_user_data(user_id, 'document', None)
+        user_data_store.set_user_data(user_id, 'additional_data', {})
         
         # Повертаємося до вибору документів
         popular_docs = data_loader.get_popular_documents(role)
