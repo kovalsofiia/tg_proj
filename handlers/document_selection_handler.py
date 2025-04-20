@@ -2,7 +2,14 @@ from telegram.ext import CallbackContext
 from telegram import Update
 from config import ADDITIONAL_DATA, CONFIRMATION
 from handlers.system.confirmation_handlers import display_confirmation
+from handlers.additional_data_handlers import prepare_additional_fields
 from utils.data_storage import DataStorage
+
+async def prompt_for_field(update: Update, context: CallbackContext, data_loader, ui_builder, user_data_store: DataStorage, user_id: int, field: dict) -> None:
+    """Prompt user for a specific field."""
+    await update.callback_query.edit_message_text(
+        f"{ui_builder.build_selection_text(user_data_store.get_user_data(user_id))}\n{data_loader.get_ui_text().get('enter_your')} {field['label']}:"
+    )
 
 async def show_all_documents(update: Update, context: CallbackContext, data_loader, ui_builder, user_data_store: DataStorage) -> None:
     query = update.callback_query
@@ -27,18 +34,12 @@ async def document_chosen(update: Update, context: CallbackContext, data_loader,
         document = callback_data.split('_')[1]
     user_data_store.set_user_data(user_id, 'document', document)
 
-    # Отримуємо повний список полів для документа
-    fields_to_ask = data_loader.get_document_fields(document)
-    context.user_data['fields_to_ask'] = [
-        {"name": field["name"], "label": field["label"]} if isinstance(field, dict) else {"name": field, "label": field}
-        for field in fields_to_ask
-    ]
+    # Prepare fields to ask, excluding those already in user_data
+    context.user_data['fields_to_ask'] = await prepare_additional_fields(context, document, data_loader, user_data_store, user_id)
 
     if context.user_data['fields_to_ask']:
-        first_field = context.user_data['fields_to_ask'].pop(0)
-        await query.edit_message_text(
-            f"{ui_builder.build_selection_text(user_data_store.get_user_data(user_id))}\n{data_loader.get_ui_text().get('enter_your')} {first_field['label']}:"
-        )
+        first_field = context.user_data['fields_to_ask'][0]  # Don't pop, just access the first field
+        await prompt_for_field(update, context, data_loader, ui_builder, user_data_store, user_id, first_field)
         return ADDITIONAL_DATA
     else:
         await display_confirmation(update, context, ui_builder, user_data_store)

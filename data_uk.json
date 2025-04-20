@@ -195,12 +195,12 @@
     "В.о. декана"
   ],
   "popular_documents": {
-    "Студент": ["Пояснювальна записка", "Заява на відпустку"],
-    "Працівник університету": ["Заява на відпустку", "Звіт"]
+    "Студент": ["Пояснювальна записка"],
+    "Працівник університету": ["Заява на відпустку"]
   },
   "documents": {
-    "Студент": ["Пояснювальна записка", "Заява на відпустку"],
-    "Працівник університету": ["Заява на відпустку", "Звіт"]
+    "Студент": ["Пояснювальна записка", "Заява на відпустку", "Заява на перескладання іспиту"],
+    "Працівник університету": ["Заява на відпустку", "Звіт", "Заява на відрядження","Заява на підвищення кваліфікації"]
   },
   "document_fields": {
     "Пояснювальна записка": [
@@ -208,6 +208,43 @@
       {"name": "event_date", "label": "Дата події"},
       {"name": "explanation_text", "label": "Текст пояснення"},
       {"name": "note_date", "label": "Дата написання записки"}
+    ],
+    "Заява на відпустку": [
+      {"name": "full_name", "label": "ПІБ", "source": "user_data"},
+      {"name": "start_date", "label": "Дата початку відпустки"},
+      {"name": "end_date", "label": "Дата закінчення відпустки"},
+      {"name": "reason", "label": "Причина відпустки"}
+    ],"Заява на перескладання іспиту": [
+      {"name": "full_name", "label": "ПІБ", "source": "user_data"},
+      {"name": "faculty", "label": "Факультет", "source": "user_data"},
+      {"name": "speciality", "label": "Спеціальність", "source": "user_data"},
+      {"name": "course", "label": "Курс", "source": "user_data"},
+      {"name": "exam_subject", "label": "Назва предмета"},
+      {"name": "exam_date", "label": "Бажана дата перескладання"},
+      {"name": "retake_reason", "label": "Причина перескладання"}
+    ],"Звіт": [
+      {"name": "full_name", "label": "ПІБ", "source": "user_data"},
+      {"name": "department", "label": "Кафедра", "source": "user_data"},
+      {"name": "position", "label": "Посада", "source": "user_data"},
+      {"name": "report_period", "label": "Період звіту"},
+      {"name": "report_content", "label": "Зміст звіту"}
+    ],"Заява на відрядження": [
+      {"name": "full_name", "label": "ПІБ", "source": "user_data"},
+      {"name": "department", "label": "Кафедра", "source": "user_data"},
+      {"name": "position", "label": "Посада", "source": "user_data"},
+      {"name": "destination", "label": "Місце відрядження"},
+      {"name": "start_date", "label": "Дата початку відрядження"},
+      {"name": "end_date", "label": "Дата закінчення відрядження"},
+      {"name": "purpose", "label": "Мета відрядження"}
+    ],
+    "Заява на підвищення кваліфікації": [
+      {"name": "full_name", "label": "ПІБ", "source": "user_data"},
+      {"name": "department", "label": "Кафедра", "source": "user_data"},
+      {"name": "position", "label": "Посада", "source": "user_data"},
+      {"name": "course_name", "label": "Назва курсу"},
+      {"name": "institution", "label": "Організація, що проводить курс"},
+      {"name": "start_date", "label": "Дата початку курсу"},
+      {"name": "justification", "label": "Обґрунтування необхідності"}
     ]
   },
   "ui_text": {
