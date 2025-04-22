@@ -256,10 +256,10 @@
   },
   "document_templates": {
     "Пояснювальна записка": {
-      "template_file": "test.docx"
+      "template_file": "myTemp.docx"
     },
     "Заява на відпустку": {
-      "template_file": "test2.docx"
+      "template_file": "myTemp2.docx"
     }
   },
   "ui_text": {
