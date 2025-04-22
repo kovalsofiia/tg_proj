@@ -215,9 +215,15 @@
     ],
     "Заява на відпустку": [
       {"name": "full_name", "label": "ПІБ", "source": "user_data"},
+      {"name": "course", "label": "Курс", "source": "user_data"},
+      {"name": "education_degree", "label": "Освітній ступінь", "source": "user_data"},
+      {"name": "speciality", "label": "Спеціальність", "source": "user_data"},
+      {"name": "faculty", "label": "Факультет", "source": "user_data"},
+      {"name": "phone_number", "label": "Номер контактного телефону", "source": "user_data"},
       {"name": "start_date", "label": "Дата початку відпустки"},
       {"name": "end_date", "label": "Дата закінчення відпустки"},
-      {"name": "reason", "label": "Причина відпустки"}
+      {"name": "reason", "label": "Причина відпустки"},
+      {"name": "note_date", "label": "Дата написання"}
     ],
     "Заява на перескладання іспиту": [
       {"name": "full_name", "label": "ПІБ", "source": "user_data"},
@@ -286,6 +292,7 @@
     "education_degree_label": "Освітній ступінь",
     "speciality_label": "Спеціальність",
     "course_label": "Курс",
-    "position_label": "Посада"
+    "position_label": "Посада",
+    "invalid_date_format": "Невірний формат дати. Будь ласка, введіть дату у форматі DD.MM.YYYY (наприклад, 21.04.2025):"
   }
 }
