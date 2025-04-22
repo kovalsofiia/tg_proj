@@ -1,5 +1,5 @@
 from telegram.ext import ConversationHandler, CommandHandler, CallbackQueryHandler, MessageHandler, filters
-from config import ROLE, FACULTY, DEPARTMENT, DOCUMENT, FULL_NAME, PHONE_NUMBER, EDUCATION_DEGREE, COURSE, SPECIALITY, ADDITIONAL_DATA, CONFIRMATION, REPEAT, POSITION
+from config import ROLE, FACULTY, DEPARTMENT, DOCUMENT, FULL_NAME, PHONE_NUMBER, EDUCATION_DEGREE, COURSE, SPECIALITY, ADDITIONAL_DATA, CONFIRMATION, REPEAT, POSITION, EDIT_DATA
 
 class ConversationManager:
     def __init__(self, application, data_loader, ui_builder, doc_generator, user_data_store):
@@ -19,7 +19,7 @@ class ConversationManager:
         from handlers.employee_data_handlers import position_chosen, department_chosen
         from handlers.document_selection_handler import show_all_documents, document_chosen
         from handlers.additional_data_handlers import additional_data_received
-        from handlers.system.confirmation_handlers import display_confirmation, format_chosen, confirm_data, change_data, cancel, repeat_choice
+        from handlers.system.confirmation_handlers import display_confirmation, format_chosen, confirm_data, change_data, cancel, repeat_choice, edit_field_callback, edit_field_received
 
         conv_handler = ConversationHandler(
             entry_points=[CommandHandler("start", lambda u, c: start(u, c, self.data_loader, self.ui_builder, self.user_data_store))],
@@ -51,6 +51,10 @@ class ConversationManager:
                     CallbackQueryHandler(lambda u, c: display_confirmation(u, c, self.ui_builder, self.user_data_store), pattern='^display$'),
                 ],
                 REPEAT: [CallbackQueryHandler(lambda u, c: repeat_choice(u, c, self.data_loader, self.ui_builder, self.user_data_store), pattern='^repeat_')],
+                EDIT_DATA: [
+                    CallbackQueryHandler(lambda u, c: edit_field_callback(u, c, self.data_loader, self.ui_builder, self.user_data_store),pattern='^(edit_|back_to_confirm)'),
+                    MessageHandler(filters.TEXT & ~filters.COMMAND,lambda u, c: edit_field_received(u, c, self.data_loader, self.ui_builder, self.user_data_store))
+                ]
             },
             fallbacks=[CommandHandler("cancel", lambda u, c: cancel(u, c, self.data_loader, self.user_data_store))],
         )

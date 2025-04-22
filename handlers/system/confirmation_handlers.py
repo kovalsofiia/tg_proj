@@ -1,7 +1,7 @@
-from telegram.ext import CallbackContext, ConversationHandler
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import CallbackContext, ConversationHandler
 import os
-from config import DOCUMENT, FULL_NAME, ADDITIONAL_DATA, CONFIRMATION, PHONE_NUMBER, REPEAT
+from config import DOCUMENT, CONFIRMATION, REPEAT, EDIT_DATA
 
 async def display_confirmation(update: Update, context: CallbackContext, ui_builder, user_data_store) -> int:
     user_id = update.effective_user.id
@@ -38,7 +38,7 @@ async def confirm_data(update: Update, context: CallbackContext, doc_generator, 
         file_path = doc_generator.generate(user_data, output_format=output_format)
         await query.edit_message_text(f"Документ '{document_name}' успішно згенеровано!")
         with open(file_path, 'rb') as f:
-            await context.bot.send_document(  # Використовуємо context.bot.send_document
+            await context.bot.send_document(
                 chat_id=user_id,
                 document=f,
                 filename=f"{document_name}.{output_format}"
@@ -109,14 +109,81 @@ async def repeat_choice(update: Update, context: CallbackContext, data_loader, u
         await query.edit_message_text("Дякую за використання бота! До зустрічі!")
         user_data_store.clear_user_data(user_id)
         return ConversationHandler.END
-    
+
 async def change_data(update: Update, context: CallbackContext, data_loader, user_data_store) -> int:
     query = update.callback_query
     await query.answer()
     user_id = update.effective_user.id
-    user_data_store.clear_user_data(user_id)
-    await query.edit_message_text(data_loader.get_ui_text().get('data_change_prompt'))
-    return ConversationHandler.END
+
+    user_data = user_data_store.get_user_data(user_id)
+    additional_data = user_data.get('additional_data', {})
+
+    fields = []
+    for key, value in user_data.items():
+        if key != 'additional_data' and value is not None and key is not None:
+            fields.append((key, value))
+    for key, value in additional_data.items():
+        if key is not None and value is not None:
+            fields.append((key, value))
+
+    if not fields:
+        await query.edit_message_text("Немає даних для редагування.")
+        return CONFIRMATION
+
+    keyboard = []
+    for field_name, field_value in fields:
+        keyboard.append([InlineKeyboardButton(f"{field_name}: {field_value}", callback_data=f"edit_{field_name}")])
+    keyboard.append([InlineKeyboardButton("Назад", callback_data='back_to_confirm')])
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    await query.edit_message_text("Оберіть поле для редагування:", reply_markup=reply_markup)
+    return EDIT_DATA
+
+async def edit_field_callback(update: Update, context: CallbackContext, data_loader, ui_builder, user_data_store) -> int:
+    query = update.callback_query
+    await query.answer()
+    user_id = update.effective_user.id
+
+    if query.data == 'back_to_confirm':
+        return await display_confirmation(update, context, ui_builder, user_data_store)
+
+    field_name = query.data.replace("edit_", "")
+    context.user_data['field_to_edit'] = field_name
+
+    await query.edit_message_text(f"Введіть нове значення для {field_name}:")
+    return EDIT_DATA
+
+async def edit_field_received(update: Update, context: CallbackContext, data_loader, ui_builder, user_data_store) -> int:
+    user_id = update.effective_user.id
+    field_name = context.user_data.get('field_to_edit')
+    new_value = update.message.text
+
+    # Переконуємося, що field_name не None
+    if field_name is None:
+        await update.message.reply_text("Помилка: назва поля не визначена.")
+        return EDIT_DATA
+
+    user_data = user_data_store.get_user_data(user_id)
+    if field_name in user_data.get('additional_data', {}):
+        user_data['additional_data'][field_name] = new_value
+    else:
+        user_data[field_name] = new_value
+    
+    # Очищаємо дані від None та об’єктів, які можуть викликати цикли
+    cleaned_data = {}
+    for k, v in user_data.items():
+        if k is None or v is None:
+            continue
+        if isinstance(v, (Update, CallbackContext)):
+            continue
+        cleaned_data[k] = v
+    # Очищаємо additional_data
+    cleaned_additional = {k: v for k, v in cleaned_data.get('additional_data', {}).items() if k is not None and v is not None}
+    cleaned_data['additional_data'] = cleaned_additional
+    
+    user_data_store.set_user_data(user_id, None, cleaned_data)
+
+    return await display_confirmation(update, context, ui_builder, user_data_store)
 
 async def cancel(update: Update, context: CallbackContext, data_loader, user_data_store) -> int:
     user = update.effective_user
