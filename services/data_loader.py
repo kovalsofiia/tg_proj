@@ -39,3 +39,6 @@ class DataLoader:
 
     def get_document_fields(self, document):
         return self.data.get('document_fields', {}).get(document, [])
+    
+    def get_document_template(self, document):
+        return self.data.get('document_templates', {}).get(document, {})

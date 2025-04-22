@@ -1,0 +1,15 @@
+Ректору ДВНЗ 
+{{course}} курсу
+освітнього ступеня {{education_degree}}
+{{faculty}} 
+спеціальності {{speciality}}
+освітня програма {{speciality}}
+{{full_name}}
+Номер контактного телефону: {{phone_number}}
+
+
+Заява
+
+Прошу надати мені академічну відпустку з {{start_date}} по {{enddate}} з {{reason}}.
+
+{{note_date}}
