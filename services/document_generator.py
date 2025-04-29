@@ -1,3 +1,4 @@
+import logging
 import os
 from io import BytesIO
 from docxtpl import DocxTemplate
@@ -22,9 +23,27 @@ class DocumentGenerator:
 
         for field in fields:
             name = field['name']
-            value = user_data.get(name, additional.get(name, ""))
+            source = field.get('source', 'user_data')
+
+            if source == 'system' and name == 'recipient':
+                # Спробуємо отримати faculty з context, user_data або additional_data
+                faculty = user_data.get('faculty', additional.get('faculty', ''))
+                logging.debug(f"Processing recipient: faculty={faculty}")
+                if not faculty:
+                    logging.warning("Faculty not provided for recipient field")
+                    value = ''
+                else:
+                    value = self.loader.get_dean(faculty)
+                    if not value:
+                        logging.warning(f"No dean found for faculty {faculty}")
+                        value = 'No name for dean'
+            else:
+                value = user_data.get(name, additional.get(name, ""))
+
             context[name] = value
+            logging.debug(f"Field {name}: value={value}")
         return context
+
 
     def generate(self, user_data, output_format='docx', return_bytes=False):
         document_type = user_data['document']

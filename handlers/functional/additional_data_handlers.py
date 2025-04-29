@@ -84,9 +84,11 @@ async def prepare_additional_fields(context: CallbackContext, document: str, dat
     user_data = user_data_store.get_user_data(user_id)
     fields_to_ask = []
     for field in all_fields:
-        field_name = field["name"] if isinstance(field, dict) else field
-        field_label = field["label"] if isinstance(field, dict) else field
-        if (field_name not in user_data and 
+        field_name = field["name"]
+        field_label = field["label"]
+        field_source = field.get("source", "user_data")
+        if (field_source != "system" and 
+            field_name not in user_data and 
             (not user_data.get('additional_data') or field_name not in user_data.get('additional_data', {}))):
             fields_to_ask.append({"name": field_name, "label": field_label})
     return fields_to_ask

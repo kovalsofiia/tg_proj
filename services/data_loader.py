@@ -20,10 +20,13 @@ class DataLoader:
         return self.data.get('roles', [])
 
     def get_faculties(self):
-        return self.data.get('faculties', [])
+        return list(self.data.get('faculties', {}).keys())
 
     def get_departments(self, faculty):
-        return self.data.get('departments', {}).get(faculty, [])
+        return self.data.get('faculties', {}).get(faculty, {}).get('departments', [])
+
+    def get_dean(self, faculty):
+        return self.data.get('faculties', {}).get(faculty, {}).get('dean', '')
     
     def get_education_degrees(self):
         return self.data.get('degrees', [])
