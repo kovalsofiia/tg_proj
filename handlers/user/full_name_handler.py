@@ -3,8 +3,8 @@ from telegram.ext import CallbackContext
 from telegram import Update
 from config import FULL_NAME, PHONE_NUMBER, FULL_NAME_REGEX
 import re
-from utils.keyboards import get_phone_keyboard
-from utils.data_storage import DataStorage
+from services.keyboards import get_phone_keyboard
+from services.data_storage import DataStorage
 
 async def get_full_name(update: Update, context: CallbackContext, data_loader, ui_builder, user_data_store: DataStorage) -> int:
     user_id = update.effective_user.id

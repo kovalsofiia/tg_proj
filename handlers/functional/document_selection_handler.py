@@ -1,9 +1,9 @@
 from telegram.ext import CallbackContext
 from telegram import Update
 from config import ADDITIONAL_DATA, CONFIRMATION
-from handlers.system.confirmation_handlers import display_confirmation
-from handlers.additional_data_handlers import prepare_additional_fields
-from utils.data_storage import DataStorage
+from handlers.functional.confirmation_handlers import display_confirmation
+from handlers.functional.additional_data_handlers import prepare_additional_fields
+from services.data_storage import DataStorage
 
 async def prompt_for_field(update: Update, context: CallbackContext, data_loader, ui_builder, user_data_store: DataStorage, user_id: int, field: dict) -> None:
     """Prompt user for a specific field."""

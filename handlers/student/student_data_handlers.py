@@ -2,7 +2,7 @@
 from telegram.ext import CallbackContext
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from config import COURSE, SPECIALITY, EDUCATION_DEGREE, DOCUMENT, ST_ROLE
-from utils.data_storage import DataStorage
+from services.data_storage import DataStorage
 
 async def education_degree_chosen(update: Update, context: CallbackContext, data_loader, ui_builder, user_data_store: DataStorage) -> int:
     query = update.callback_query

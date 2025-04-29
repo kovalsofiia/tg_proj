@@ -4,7 +4,7 @@ from telegram.ext import ApplicationBuilder
 from services.data_loader import DataLoader
 from services.ui_builder import UIBuilder
 from services.document_generator import DocumentGenerator
-from utils.data_storage import DataStorage
+from services.data_storage import DataStorage
 from conversation import ConversationManager
 
 def main() -> None:

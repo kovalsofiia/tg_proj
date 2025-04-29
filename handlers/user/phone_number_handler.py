@@ -2,8 +2,8 @@
 from telegram.ext import CallbackContext
 from telegram import Update
 from config import FACULTY, PHONE_NUMBER
-from utils.keyboards import get_phone_keyboard
-from utils.data_storage import DataStorage
+from services.keyboards import get_phone_keyboard
+from services.data_storage import DataStorage
 
 async def get_phone_number(update: Update, context: CallbackContext, data_loader, ui_builder, user_data_store: DataStorage) -> int:
     user_id = update.effective_user.id

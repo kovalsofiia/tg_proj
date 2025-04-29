@@ -1,9 +1,9 @@
 from telegram.ext import CallbackContext
 from telegram import Update
 from config import ADDITIONAL_DATA, CONFIRMATION
-from handlers.system.confirmation_handlers import display_confirmation
+from handlers.functional.confirmation_handlers import display_confirmation
 from handlers.validation.validation_data_handler import determine_field_type, validate_date, validate_subject, validate_text
-from utils.data_storage import DataStorage
+from services.data_storage import DataStorage
 from datetime import datetime
 import re
 

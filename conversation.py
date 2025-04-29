@@ -10,16 +10,16 @@ class ConversationManager:
         self.user_data_store = user_data_store
 
     def setup_handlers(self):
-        from handlers.system.start_handler import start
+        from handlers.functional.start_handler import start
         from handlers.user.role_selection_handler import role_chosen
         from handlers.user.phone_number_handler import get_phone_number
         from handlers.user.full_name_handler import get_full_name
         from handlers.user.faculty_selection_handler import faculty_chosen
-        from handlers.student_data_handlers import education_degree_chosen, speciality_chosen, course_chosen
-        from handlers.employee_data_handlers import position_chosen, department_chosen
-        from handlers.document_selection_handler import show_all_documents, document_chosen
-        from handlers.additional_data_handlers import additional_data_received
-        from handlers.system.confirmation_handlers import display_confirmation, format_chosen, confirm_data, change_data, cancel, repeat_choice, edit_field_callback, edit_field_received
+        from handlers.student.student_data_handlers import education_degree_chosen, speciality_chosen, course_chosen
+        from handlers.employee.employee_data_handlers import position_chosen, department_chosen
+        from handlers.functional.document_selection_handler import show_all_documents, document_chosen
+        from handlers.functional.additional_data_handlers import additional_data_received
+        from handlers.functional.confirmation_handlers import display_confirmation, format_chosen, confirm_data, change_data, cancel, repeat_choice, edit_field_callback, edit_field_received
 
         conv_handler = ConversationHandler(
             entry_points=[CommandHandler("start", lambda u, c: start(u, c, self.data_loader, self.ui_builder, self.user_data_store))],
