@@ -29,21 +29,35 @@ class UIBuilder:
         return InlineKeyboardMarkup(keyboard)
 
     def build_confirmation_text(self, user_data, output_format='docx'):
-        confirmation_text = self.ui_text.get('confirm_data') + "\n\n"
+        document = user_data.get('document')
+        if not document:
+            return "Помилка: документ не обрано."
+
+        # Отримуємо всі поля для документа
+        document_fields = self.ui_text.get('document_fields', {}).get(document, [])
+        field_labels = {field['name']: field['label'] for field in document_fields}
+
+        confirmation_text = f"{self.ui_text.get('confirm_data', 'Будь ласка, перевірте введені дані:')}\n\n"
+        confirmation_text += "📋 Основні дані:\n"
+        
+        # Основні поля (role, faculty, full_name тощо)
         for key, value in user_data.items():
-            if key is None or value is None:  # Перевірка на None
+            if key == 'additional_data' or key is None or value is None:
                 continue
-            if key not in ['role', 'faculty', 'department', 'document', 'education_degree', 'speciality', 'course', 'position']:
-                confirmation_text += f"{key.replace('_', ' ').title()}: {value}\n"
-            elif key in ['faculty', 'department', 'role', 'document', 'education_degree', 'speciality', 'course', 'position']:
-                confirmation_text += f"{self.ui_text.get(f'{key}_label', key.title())}: {value}\n"
-        if 'additional_data' in user_data:
-            confirmation_text += f"\n{self.ui_text.get('additional_data_label', 'Додаткові дані')}:\n"
-            for key, value in user_data['additional_data'].items():
-                if key is None or value is None:  # Перевірка на None
+            label = field_labels.get(key, self.ui_text.get(f'{key}_label', key.replace('_', ' ').title()))
+            confirmation_text += f"  • {label}: {value}\n"
+
+        # Додаткові дані
+        additional_data = user_data.get('additional_data', {})
+        if additional_data:
+            confirmation_text += "\n📎 Додаткові дані:\n"
+            for key, value in additional_data.items():
+                if key is None or value is None:
                     continue
-                confirmation_text += f"- {key.replace('_', ' ').title()}: {value}\n"
-        confirmation_text += f"\nОбраний формат: {output_format.upper()}"
+                label = field_labels.get(key, key.replace('_', ' ').title())
+                confirmation_text += f"  • {label}: {value}\n"
+
+        confirmation_text += f"\n📄 Обраний формат: {output_format.upper()}"
         return confirmation_text
 
     def build_confirmation_keyboard(self, output_format):
