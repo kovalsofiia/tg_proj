@@ -1,4 +1,3 @@
-# ADDED JSON SAVING easy alternative for saving data
 from telegram.ext import CallbackContext
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from config import COURSE, SPECIALITY, EDUCATION_DEGREE, DOCUMENT, ST_ROLE
@@ -15,8 +14,8 @@ async def education_degree_chosen(update: Update, context: CallbackContext, data
 
     if role == ST_ROLE:
         faculty = user_data_store.get_user_data(user_id).get('faculty')
-        departments = data_loader.get_departments(faculty)
-        reply_markup = ui_builder.build_keyboard(departments, 'speciality_')
+        specialities = data_loader.get_departments(faculty, role=ST_ROLE)
+        reply_markup = ui_builder.build_keyboard(specialities, 'speciality_')
         current_selection = ui_builder.build_selection_text(user_data_store.get_user_data(user_id))
         message_text = f"{current_selection}\nБудь ласка, оберіть вашу спеціальність:"
         await query.edit_message_text(text=message_text, reply_markup=reply_markup)
@@ -27,12 +26,16 @@ async def speciality_chosen(update: Update, context: CallbackContext, data_loade
     query = update.callback_query
     await query.answer()
     user_id = update.effective_user.id
-    speciality = query.data.split('_')[1]
+    speciality_key = query.data.replace('speciality_', '')
     role = user_data_store.get_user_data(user_id).get('role')
 
-    user_data_store.set_user_data(user_id, 'speciality', speciality)
-
     if role == ST_ROLE:
+        # Знайдемо повну назву спеціальності за ключем
+        faculty = user_data_store.get_user_data(user_id).get('faculty')
+        specialities = data_loader.get_departments(faculty, role=ST_ROLE)
+        speciality_name = next((name for key, name in specialities if key == speciality_key), speciality_key)
+        user_data_store.set_user_data(user_id, 'speciality', speciality_name)
+
         courses = ["1", "2", "3", "4", "5", "6"]
         reply_markup = ui_builder.build_keyboard(courses, 'course_')
         current_selection = ui_builder.build_selection_text(user_data_store.get_user_data(user_id))

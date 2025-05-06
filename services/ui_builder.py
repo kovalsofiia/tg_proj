@@ -6,26 +6,42 @@ class UIBuilder:
 
     def build_selection_text(self, user_data):
         selection = ""
-        if 'role' in user_data and user_data['role'] is not None:
-            selection += f"{self.ui_text.get('role_label', 'Роль')}: {user_data['role']}\n"
+        role = user_data.get('role')
+        
+        if role:
+            selection += f"{self.ui_text.get('role_label', 'Роль')}: {role}\n"
         if 'faculty' in user_data and user_data['faculty'] is not None:
             selection += f"{self.ui_text.get('faculty_label', 'Факультет')}: {user_data['faculty']}\n"
-        if 'department' in user_data and user_data['department'] is not None:
-            selection += f"{self.ui_text.get('department_label', 'Кафедра')}: {user_data['department']}\n"
-        if 'education_degree' in user_data and user_data['education_degree'] is not None:
-            selection += f"{self.ui_text.get('education_degree_label', 'Освітній ступінь')}: {user_data['education_degree']}\n"
-        if 'speciality' in user_data and user_data['speciality'] is not None:
-            selection += f"{self.ui_text.get('speciality_label', 'Спеціальність')}: {user_data['speciality']}\n"
-        if 'course' in user_data and user_data['course'] is not None:
-            selection += f"{self.ui_text.get('course_label', 'Курс')}: {user_data['course']}\n"
-        if 'position' in user_data and user_data['position'] is not None:
-            selection += f"{self.ui_text.get('position_label', 'Посада')}: {user_data['position']}\n"
+        
+        # Для студентів відображаємо спеціальність, для працівників — кафедру
+        if role == "Студент":
+            if 'speciality' in user_data and user_data['speciality'] is not None:
+                selection += f"{self.ui_text.get('speciality_label', 'Спеціальність')}: {user_data['speciality']}\n"
+            if 'education_degree' in user_data and user_data['education_degree'] is not None:
+                selection += f"{self.ui_text.get('education_degree_label', 'Освітній ступінь')}: {user_data['education_degree']}\n"
+            if 'course' in user_data and user_data['course'] is not None:
+                selection += f"{self.ui_text.get('course_label', 'Курс')}: {user_data['course']}\n"
+        else:  # Працівник університету
+            if 'department' in user_data and user_data['department'] is not None:
+                selection += f"{self.ui_text.get('department_label', 'Кафедра')}: {user_data['department']}\n"
+            if 'position' in user_data and user_data['position'] is not None:
+                selection += f"{self.ui_text.get('position_label', 'Посада')}: {user_data['position']}\n"
+        
         if 'document' in user_data and user_data['document'] is not None:
             selection += f"{self.ui_text.get('document_label', 'Документ')}: {user_data['document']}\n"
         return selection
 
     def build_keyboard(self, items, callback_prefix):
-        keyboard = [[InlineKeyboardButton(item, callback_data=f'{callback_prefix}{item}')] for item in items]
+        keyboard = []
+        for item in items:
+            if isinstance(item, tuple):
+                # Якщо item є кортежем (key, name), використовуємо key для callback_data, name для тексту кнопки
+                key, name = item
+                button = InlineKeyboardButton(name, callback_data=f'{callback_prefix}{key}')
+            else:
+                # Якщо item є рядком, використовуємо його для обох
+                button = InlineKeyboardButton(item, callback_data=f'{callback_prefix}{item}')
+            keyboard.append([button])
         return InlineKeyboardMarkup(keyboard)
 
     def build_confirmation_text(self, user_data, output_format='docx'):
