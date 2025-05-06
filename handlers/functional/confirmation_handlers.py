@@ -130,11 +130,11 @@ async def change_data(update: Update, context: CallbackContext, data_loader, use
     # Формуємо список полів для редагування
     fields = []
     for key, value in user_data.items():
-        if key != 'additional_data' and value is not None and key is not None:
+        if key != 'additional_data' and key != 'document' and value is not None and key is not None:
             label = field_labels.get(key, key.replace('_', ' ').title())
             fields.append((key, label, value))
     for key, value in user_data.get('additional_data', {}).items():
-        if key is not None and value is not None:
+        if key != 'document' and key is not None and value is not None:
             label = field_labels.get(key, key.replace('_', ' ').title())
             fields.append((key, label, value))
 

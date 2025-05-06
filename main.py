@@ -17,7 +17,7 @@ def main() -> None:
     # Ініціалізація компонентів
     data_loader = DataLoader()
     ui_builder = UIBuilder(data_loader.get_ui_text())
-    doc_generator = DocumentGenerator()  # Потрібно реалізувати
+    doc_generator = DocumentGenerator() 
     user_data_store = DataStorage()
 
     # Налаштування бота
