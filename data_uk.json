@@ -62,7 +62,8 @@
       {"name": "event_date", "label": "Дата події"},
       {"name": "explanation_text", "label": "Текст пояснення"},
       {"name": "note_date", "label": "Дата написання записки"},
-      {"name": "recipient", "label": "Отримувач", "source": "system"}
+      {"name": "recipient", "label": "Отримувач", "source": "system"},
+      {"name": "short_name", "label": "Скорочене ПІБ", "source": "user_data"}
     ],
     "Заява на відпустку": [
       {"name": "full_name", "label": "ПІБ", "source": "user_data"},

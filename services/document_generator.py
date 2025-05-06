@@ -19,11 +19,14 @@ class DocumentGenerator:
     def _build_context(self, fields, user_data):
         context = {}
         additional = user_data.get("additional_data", {})
+                
         for field in fields:
             name = field['name']
             source = field.get('source', 'user_data')
             if name == 'speciality_name':
                 value = user_data.get('speciality_name', additional.get('speciality_name', ''))
+            elif name == 'short_name':
+                value = user_data.get('short_name', additional.get('short_name', ''))
             elif source == 'system' and name == 'recipient':
                 faculty = user_data.get('faculty', additional.get('faculty', ''))
                 self.logger.debug(f"Processing recipient: faculty={faculty}")
