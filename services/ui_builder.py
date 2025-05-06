@@ -31,19 +31,6 @@ class UIBuilder:
             selection += f"{self.ui_text.get('document_label', 'Документ')}: {user_data['document']}\n"
         return selection
 
-    def build_keyboard(self, items, callback_prefix):
-        keyboard = []
-        for item in items:
-            if isinstance(item, tuple):
-                # Якщо item є кортежем (key, name), використовуємо key для callback_data, name для тексту кнопки
-                key, name = item
-                button = InlineKeyboardButton(name, callback_data=f'{callback_prefix}{key}')
-            else:
-                # Якщо item є рядком, використовуємо його для обох
-                button = InlineKeyboardButton(item, callback_data=f'{callback_prefix}{item}')
-            keyboard.append([button])
-        return InlineKeyboardMarkup(keyboard)
-
     def build_confirmation_text(self, user_data, output_format='docx'):
         document = user_data.get('document')
         if not document:
@@ -56,9 +43,9 @@ class UIBuilder:
         confirmation_text = f"{self.ui_text.get('confirm_data', 'Будь ласка, перевірте введені дані:')}\n\n"
         confirmation_text += "📋 Основні дані:\n"
         
-        # Основні поля (role, faculty, full_name тощо)
+        # Основні поля, виключаючи внутрішні
         for key, value in user_data.items():
-            if key == 'additional_data' or key is None or value is None:
+            if key in ['additional_data', 'speciality_code', 'speciality_name', 'full_name_vocative'] or key is None or value is None:
                 continue
             label = field_labels.get(key, self.ui_text.get(f'{key}_label', key.replace('_', ' ').title()))
             confirmation_text += f"  • {label}: {value}\n"
@@ -75,6 +62,19 @@ class UIBuilder:
 
         confirmation_text += f"\n📄 Обраний формат: {output_format.upper()}"
         return confirmation_text
+
+    def build_keyboard(self, items, callback_prefix):
+        keyboard = []
+        for item in items:
+            if isinstance(item, tuple):
+                # Якщо item є кортежем (key, name), використовуємо key для callback_data, name для тексту кнопки
+                key, name = item
+                button = InlineKeyboardButton(name, callback_data=f'{callback_prefix}{key}')
+            else:
+                # Якщо item є рядком, використовуємо його для обох
+                button = InlineKeyboardButton(item, callback_data=f'{callback_prefix}{item}')
+            keyboard.append([button])
+        return InlineKeyboardMarkup(keyboard)
 
     def build_confirmation_keyboard(self, output_format):
         keyboard = [

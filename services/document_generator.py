@@ -22,7 +22,9 @@ class DocumentGenerator:
         for field in fields:
             name = field['name']
             source = field.get('source', 'user_data')
-            if source == 'system' and name == 'recipient':
+            if name == 'speciality_name':
+                value = user_data.get('speciality_name', additional.get('speciality_name', ''))
+            elif source == 'system' and name == 'recipient':
                 faculty = user_data.get('faculty', additional.get('faculty', ''))
                 self.logger.debug(f"Processing recipient: faculty={faculty}")
                 if not faculty:

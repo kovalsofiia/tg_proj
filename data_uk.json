@@ -24,7 +24,7 @@
           "speciality": "124 Системний аналіз"
         }
       },
-      "dean": "Маляр Микола Миколайович"
+      "dean": "Миколі МАЛЯРУ"
     }
   },
   "degrees": [
@@ -57,6 +57,7 @@
       {"name": "faculty", "label": "Факультет", "source": "user_data"},
       {"name": "education_degree", "label": "Освітній ступінь", "source": "user_data"},
       {"name": "speciality", "label": "Спеціальність", "source": "user_data"},
+      {"name": "speciality_name", "label": "Освітня програма", "source": "user_data"},
       {"name": "course", "label": "Курс", "source": "user_data"},
       {"name": "event_date", "label": "Дата події"},
       {"name": "explanation_text", "label": "Текст пояснення"},
@@ -68,6 +69,7 @@
       {"name": "course", "label": "Курс", "source": "user_data"},
       {"name": "education_degree", "label": "Освітній ступінь", "source": "user_data"},
       {"name": "speciality", "label": "Спеціальність", "source": "user_data"},
+      {"name": "speciality_name", "label": "Освітня програма", "source": "user_data"},
       {"name": "faculty", "label": "Факультет", "source": "user_data"},
       {"name": "phone_number", "label": "Номер контактного телефону", "source": "user_data"},
       {"name": "start_date", "label": "Дата початку відпустки"},
@@ -79,6 +81,7 @@
       {"name": "full_name", "label": "ПІБ", "source": "user_data"},
       {"name": "faculty", "label": "Факультет", "source": "user_data"},
       {"name": "speciality", "label": "Спеціальність", "source": "user_data"},
+      {"name": "speciality_name", "label": "Освітня програма", "source": "user_data"},
       {"name": "course", "label": "Курс", "source": "user_data"},
       {"name": "exam_subject", "label": "Назва предмета"},
       {"name": "exam_date", "label": "Бажана дата перескладання"},

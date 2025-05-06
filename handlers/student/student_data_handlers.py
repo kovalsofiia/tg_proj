@@ -22,6 +22,8 @@ async def education_degree_chosen(update: Update, context: CallbackContext, data
         return SPECIALITY
     return EDUCATION_DEGREE
 
+import re
+
 async def speciality_chosen(update: Update, context: CallbackContext, data_loader, ui_builder, user_data_store: DataStorage) -> int:
     query = update.callback_query
     await query.answer()
@@ -34,7 +36,22 @@ async def speciality_chosen(update: Update, context: CallbackContext, data_loade
         faculty = user_data_store.get_user_data(user_id).get('faculty')
         specialities = data_loader.get_departments(faculty, role=ST_ROLE)
         speciality_name = next((name for key, name in specialities if key == speciality_key), speciality_key)
+        
+        # Розбиваємо спеціальність
+        def split_speciality(speciality):
+            pattern = r'^(\d+\.?\d*\.?\d*)\s*(.*)$'
+            match = re.match(pattern, speciality)
+            if match:
+                code, name = match.groups()
+                return code.strip(), name.strip()
+            return '', speciality.strip()
+        
+        speciality_code, speciality_name_only = split_speciality(speciality_name)
+        
+        # Зберігаємо дані
         user_data_store.set_user_data(user_id, 'speciality', speciality_name)
+        user_data_store.set_user_data(user_id, 'speciality_code', speciality_code)
+        user_data_store.set_user_data(user_id, 'speciality_name', speciality_name_only)
 
         courses = ["1", "2", "3", "4", "5", "6"]
         reply_markup = ui_builder.build_keyboard(courses, 'course_')
