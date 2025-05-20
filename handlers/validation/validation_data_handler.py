@@ -12,7 +12,24 @@ def determine_field_type(field_name: str) -> str:
         return 'phone'
     elif 'subject' in field_name:
         return 'subject'
+    elif 'ind_cod' in field_name:
+        return 'id_code'
+    elif 'card_num' in field_name:
+        return 'card_number'
     return 'text'  # За замовчуванням вважаємо текстом
+
+def validate_id_code(id_code: str) -> tuple[bool, str]:
+    """Перевіряє, чи ідентифікаційний код складається з 10 цифр."""
+    if re.fullmatch(r'\d{10}', id_code):
+        return True, ""
+    return False, "invalid_id_code"
+
+def validate_card_number(card_number: str) -> tuple[bool, str]:
+    """Перевіряє, чи картковий рахунок складається з 16 цифр."""
+    if re.fullmatch(r'\d{16}', card_number):
+        return True, ""
+    return False, "invalid_card_number"
+
 
 def validate_date(date_text: str, field_name: str) -> tuple[bool, str]:
     """Перевіряє формат дати DD.MM.YYYY та чи є дата коректною."""

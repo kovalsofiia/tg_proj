@@ -2,7 +2,7 @@ from telegram.ext import CallbackContext
 from telegram import Update
 from config import ADDITIONAL_DATA, CONFIRMATION
 from handlers.functional.confirmation_handlers import display_confirmation
-from handlers.validation.validation_data_handler import determine_field_type, validate_date, validate_subject, validate_text
+from handlers.validation.validation_data_handler import determine_field_type, validate_date, validate_subject, validate_text, validate_id_code, validate_card_number
 from services.data_storage import DataStorage
 from datetime import datetime
 import re
@@ -30,6 +30,15 @@ async def additional_data_received(update: Update, context: CallbackContext, dat
     # Отримуємо ui_text для перевірки наявності ключів
     ui_text = data_loader.get_ui_text()
 
+    # 🔸 Відображення додаткового тексту з ui_text.json
+    if (
+        user_data.get('document') == "Заява на академ. відпустку" and 
+        field_name.lower() == "reason"
+    ):
+        note_key = "academic_leave_reason_note"
+        if note_key in ui_text:
+            await update.message.reply_text(ui_text[note_key])
+
     # Валідація залежно від типу поля
     if field_type == 'date':
         is_valid, error_key = validate_date(field_value, field_name)
@@ -49,6 +58,21 @@ async def additional_data_received(update: Update, context: CallbackContext, dat
             error_message = ui_text[error_key]
             await update.message.reply_text(error_message)
             return ADDITIONAL_DATA
+    
+    elif field_type == 'id_code':
+        is_valid, error_key = validate_id_code(field_value)
+        if not is_valid:
+            error_message = ui_text.get(error_key, "Невірний ідентифікаційний код.")
+            await update.message.reply_text(error_message)
+            return ADDITIONAL_DATA
+
+    elif field_type == 'card_number':
+        is_valid, error_key = validate_card_number(field_value)
+        if not is_valid:
+            error_message = ui_text.get(error_key, "Невірний номер карткового рахунку.")
+            await update.message.reply_text(error_message)
+            return ADDITIONAL_DATA
+
     else:  # Усі інші поля вважаємо текстовими
         is_valid, error_key = validate_text(field_value, min_length=min_length)
         if not is_valid:

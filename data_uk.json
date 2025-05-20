@@ -45,11 +45,11 @@
   ],
   "popular_documents": {
     "Студент": ["Пояснювальна записка"],
-    "Працівник університету": ["Звіт"]
+    "Працівник університету": ["Звіт про відрядження"]
   },
   "documents": {
-    "Студент": ["Пояснювальна записка", "Заява на відпустку", "Заява на перескладання іспиту"],
-    "Працівник університету": ["Звіт", "Заява на відрядження", "Заява на підвищення кваліфікації"]
+    "Студент": ["Пояснювальна записка", "Заява на академ. відпустку", "Заява про відрахування (за вл. баж.)", "Заява про нарахування стипендії"],
+    "Працівник університету": ["Звіт про відрядження", "Заява про надання відпустки"]
   },
   "document_fields": {
     "Пояснювальна записка": [
@@ -59,13 +59,14 @@
       {"name": "speciality", "label": "Спеціальність", "source": "user_data"},
       {"name": "speciality_name", "label": "Освітня програма", "source": "user_data"},
       {"name": "course", "label": "Курс", "source": "user_data"},
+      {"name": "gender", "label": "", "source": "user_data"},
       {"name": "event_date", "label": "Дата події"},
       {"name": "explanation_text", "label": "Текст пояснення"},
       {"name": "note_date", "label": "Дата написання записки"},
       {"name": "recipient", "label": "Отримувач", "source": "system"},
       {"name": "short_name", "label": "Скорочене ПІБ", "source": "user_data"}
     ],
-    "Заява на відпустку": [
+    "Заява на академ. відпустку": [
       {"name": "full_name", "label": "ПІБ", "source": "user_data"},
       {"name": "course", "label": "Курс", "source": "user_data"},
       {"name": "education_degree", "label": "Освітній ступінь", "source": "user_data"},
@@ -78,15 +79,26 @@
       {"name": "reason", "label": "Причина відпустки"},
       {"name": "note_date", "label": "Дата написання"}
     ],
-    "Заява на перескладання іспиту": [
+    "Заява про нарахування стипендії": [
       {"name": "full_name", "label": "ПІБ", "source": "user_data"},
+      {"name": "course", "label": "Курс", "source": "user_data"},
       {"name": "faculty", "label": "Факультет", "source": "user_data"},
+      {"name": "phone_number", "label": "Номер контактного телефону", "source": "user_data"},
+      {"name": "ind_cod", "label": "Ідентифікаційний код"},
+      {"name": "card_num", "label": "Картковий рахунок (16 симв.)"},
+      {"name": "note_date", "label": "Дата написання"},
+      {"name": "short_name", "label": "Скорочене ПІБ", "source": "user_data"}
+    ],
+    "Заява про відрахування (за вл. баж.)": [
+      {"name": "full_name", "label": "ПІБ", "source": "user_data"},
+      {"name": "course", "label": "Курс", "source": "user_data"},
+      {"name": "education_degree", "label": "Освітній ступінь", "source": "user_data"},
       {"name": "speciality", "label": "Спеціальність", "source": "user_data"},
       {"name": "speciality_name", "label": "Освітня програма", "source": "user_data"},
-      {"name": "course", "label": "Курс", "source": "user_data"},
-      {"name": "exam_subject", "label": "Назва предмета"},
-      {"name": "exam_date", "label": "Бажана дата перескладання"},
-      {"name": "retake_reason", "label": "Причина перескладання"}
+      {"name": "faculty", "label": "Факультет", "source": "user_data"},
+      {"name": "phone_number", "label": "Номер контактного телефону", "source": "user_data"},
+      {"name": "short_name", "label": "Скорочене ПІБ", "source": "user_data"},
+      {"name": "note_date", "label": "Дата написання"}
     ],
     "Звіт": [
       {"name": "full_name", "label": "ПІБ", "source": "user_data"},
@@ -103,23 +115,20 @@
       {"name": "start_date", "label": "Дата початку відрядження"},
       {"name": "end_date", "label": "Дата закінчення відрядження"},
       {"name": "purpose", "label": "Мета відрядження"}
-    ],
-    "Заява на підвищення кваліфікації": [
-      {"name": "full_name", "label": "ПІБ", "source": "user_data"},
-      {"name": "department", "label": "Кафедра", "source": "user_data"},
-      {"name": "position", "label": "Посада", "source": "user_data"},
-      {"name": "course_name", "label": "Назва курсу"},
-      {"name": "institution", "label": "Організація, що проводить курс"},
-      {"name": "start_date", "label": "Дата початку курсу"},
-      {"name": "justification", "label": "Обґрунтування необхідності"}
     ]
   },
   "document_templates": {
     "Пояснювальна записка": {
-      "template_file": "myTemp.docx"
+      "template_file": "stud-poyasn-zapyska.docx"
     },
-    "Заява на відпустку": {
-      "template_file": "myTemp2.docx"
+    "Заява на академ. відпустку": {
+      "template_file": "stud-akadem-vidpustka.docx"
+    },
+    "Заява про нарахування стипендії": {
+      "template_file": "stud-stypendia.docx"
+    },
+    "Заява про відрахування (за вл. баж.)": {
+      "template_file": "stud-vidrakh-vlasne-bazh.docx"
     }
   },
   "ui_text": {
@@ -160,6 +169,9 @@
     "invalid_date": "Невірна дата. Перевірте правильність введених даних.",
     "text_too_short": "Текст має містити щонайменше {min_length} символів.",
     "invalid_subject_format": "Назва предмета має містити лише літери, пробіли або дефіси.",
-    "subject_too_short": "Назва предмета має бути щонайменше 3 символи."
+    "subject_too_short": "Назва предмета має бути щонайменше 3 символи.",
+    "academic_leave_reason_note": "Причини, з яких надається академічна відпустка: \nакадемічна відпустка за медичними показниками \nакадемічна відпустка у зв'язку з участю у програмах академічної мобільності \nакадемічна відпустка у зв'язку з військовою службою \nакадемічна відпустка за сімейними обставинами \nакадемічна відпустка у зв’язку з вагітністю та пологами, відпустка по догляду за дитиною до досягнення нею трирічного віку, а у разі, коли дитина хворіє та потребує домашнього догляду, до досягнення дитиною шестирічного віку",
+    "invalid_id_code": "Ідентифікаційний код повинен містити рівно 10 цифр.",
+  "invalid_card_number": "Номер карткового рахунку повинен містити рівно 16 цифр."
   }
 }
